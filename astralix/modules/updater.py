@@ -903,6 +903,7 @@ class UpdaterMod(loader.Module):
             ].format(utils.ascii_face(), took, fails)
 
         if ms is None:
+            await self.inline.bot.send_message(self.tg_id, msg)
             return
 
         self.set("selfupdatemsg", None)
