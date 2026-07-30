@@ -534,16 +534,16 @@ help:
   help_lib: "<tg-emoji emoji-id=5404553572727660202>❌</tg-emoji> <b>パッケージ</b> <code>{}</code> <b>はライブラリです。</b>\n<tg-emoji emoji-id=5404553572727660202>❌</tg-emoji> <b>ライブラリには説明がありません...</b>"
   developer: "<tg-emoji emoji-id=5287454910059654880>🫶</tg-emoji> 開発者: {}"
   hidden_shown: "<b>{} 個のモジュールが非表示、{} 個のモジュールが表示中:</b>\n{}\n{}"
-  offchats: "<tg-emoji emoji-id=6019130940012370273>❔</tg-emoji> <a href=\"https://t.me/astralix_talks\"><b>サポートチャット</b></a>\n\n<tg-emoji emoji-id=6019151079114021083>💬</tg-emoji> <a href=\"https://t.me/astralix_offtop\"><b>オフトピックチャット</b></a>\n\n<tg-emoji emoji-id=6019094432790354513>📢</tg-emoji> <a href=\"https://t.me/astralix_ub\"><b>公式チャンネル</b></a>"
+
   partial_load: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>ユーザーボットが完全に読み込まれていないため、一部のモジュールは表示されません</b>"
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>完全一致が発生しなかったため、最も近い結果が表示されています</b>"
-  request_join: "astralix サポートチャットへのリンクをリクエストしました"
+
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>これはコアモジュールです。アンロードや置換はできません</b>"
 
   _cls_doc: モジュールとコマンドのヘルプを表示します
   _cmd_doc_help: '[module] - モジュールとコマンドのヘルプを表示'
   _cmd_doc_helphide: <module ...> - help でモジュールを非表示/表示
-  _cmd_doc_support: サポートチャットのリンクを表示
+
   show_preview_in_help: 'helpプレビューに # meta banner を表示 [module]'
 astralix_info:
   info_message: "{}\n<blockquote>┌\n├  【<tg-emoji emoji-id=5883964170268840032>👤</tg-emoji>】 <b>所有者</b>: {me}\n├  【<tg-emoji emoji-id=5931415565955503486>🤖</tg-emoji>】 <b>バージョン</b>: {version}\n└</blockquote>\n<blockquote>┌\n├  【<tg-emoji emoji-id=5778335621491723621>📷</tg-emoji>】 <b>プレフィックス</b>: {prefix}⠀ ⠀ \n├  【<tg-emoji emoji-id=5843799474362652262>🔄</tg-emoji>】 <b>稼働時間</b>: {uptime}\n├  【<tg-emoji emoji-id=5879770735999717115>👤</tg-emoji>】 <b>ブランチ</b>: {branch}\n└</blockquote>\n<blockquote>┌\n├  【<tg-emoji emoji-id=5775887550262546277>❗️</tg-emoji>】 <b>ＣＰＵ</b>: {cpu_usage}\n├  【<tg-emoji emoji-id=5931409969613116639>🛡</tg-emoji>】 <b>ＲＡＭ</b>: {ram_usage}\n├  【<tg-emoji emoji-id=5931472654660800739>📊</tg-emoji>】 <b>Ｐｉｎｇ</b>: {ping}\n└</blockquote>\n<blockquote>┌\n├  【<tg-emoji emoji-id=5926783847453692661>🛡</tg-emoji>】 <b>更新</b>: {upd}\n├  【<tg-emoji emoji-id=5931415565955503486>🤖</tg-emoji>】 <b>ホスト</b>: {platform}\n├  【<tg-emoji emoji-id=5819078828017849357>🤖</tg-emoji>】 <b>ＯＳ</b>: {os}\n├  【<tg-emoji emoji-id=5819078828017849357>🤖</tg-emoji>】 <b>Python Ver</b>: {python_ver}\n└</blockquote>"

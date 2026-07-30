@@ -505,16 +505,3 @@ class Help(loader.Module):
                     file=banner,
                     invert_media=self.config["invert_media"],
                 )
-
-    @loader.command(
-        ru_doc="| Ссылка на чат помощи",
-        ua_doc="| посилання для чату служби підтримки",
-        de_doc="| Link zum Support-Chat",
-    )
-    async def support(self, message):
-        """| link for support chat"""
-
-        await utils.answer(
-            message,
-            self.strings["offchats"],
-        )

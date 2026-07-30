@@ -519,15 +519,15 @@ help:
   help_lib: "<tg-emoji emoji-id=5404553572727660202>❌</tg-emoji> <b>Das Paket</b> <code>{}</code> <b>ist eine Bibliothek.</b>\n<tg-emoji emoji-id=5404553572727660202>❌</tg-emoji> <b>Bibliotheken haben keine Beschreibung...</b>"
   developer: "<tg-emoji emoji-id=5287454910059654880>🫶</tg-emoji> Entwickler: {}"
   hidden_shown: "<b>{} Module verborgen, {} Module angezeigt:</b>\n{}\n{}"
-  offchats: "<tg-emoji emoji-id=6019130940012370273>❔</tg-emoji> <a href=\"https://t.me/astralix_talks\"><b>Support-Chat</b></a>\n\n<tg-emoji emoji-id=6019151079114021083>💬</tg-emoji> <a href=\"https://t.me/astralix_offtop\"><b>Offtopic-Chat</b></a>\n\n<tg-emoji emoji-id=6019094432790354513>📢</tg-emoji> <a href=\"https://t.me/astralix_ub\"><b>Offizieller Kanal</b></a>"
+
   _cls_doc: "Zeigt Hilfe zu Modulen an"
   partial_load: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Der Userbot ist noch nicht vollständig geladen, daher werden nicht alle Module angezeigt</b>"
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Es wurde keine exakte Übereinstimmung gefunden, daher wurde die passendste Auswahl getroffen</b>"
-  request_join: "Du hast nach einem Link zum Hilfe-Chat von astralix gefragt"
+
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Dies ist ein eingebautes Modul. Du kannst es nicht entladen oder ersetzen</b>"
   _cmd_doc_help: "[Modul] [-f] - Zeigt Hilfe an"
   _cmd_doc_helphide: "<Modul oder Module> - Versteckt das Modul(-e) aus der Hilfe\n*Trenne die Module mit Leerzeichen"
-  _cmd_doc_support: "Zeigt den Link zum astralix Hilfe-Chat"
+
   show_preview_in_help: "Meta-Banner in der Help-Vorschau anzeigen [module]"
 
   name: Help

@@ -518,15 +518,15 @@ help:
   help_lib: "<tg-emoji emoji-id=5404553572727660202>❌</tg-emoji> <b>Пакет</b> <code>{}</code> <b>это либа.</b>\n<tg-emoji emoji-id=5404553572727660202>❌</tg-emoji> <b>У либ нет описания, лол...</b>"
   developer: "<tg-emoji emoji-id=5287454910059654880>🫶</tg-emoji> Разработчик: {}"
   hidden_shown: "<b>{} модов скрыто, {} показано:</b>\n{}\n{}"
-  offchats: "<tg-emoji emoji-id=6019130940012370273>❔</tg-emoji> <a href=\"https://t.me/astralix_talks\"><b>Саппорт (помощь)</b></a>\n\n<tg-emoji emoji-id=6019151079114021083>💬</tg-emoji> <a href=\"https://t.me/astralix_offtop\"><b>Оффтоп (флуд)</b></a>\n\n<tg-emoji emoji-id=6019094432790354513>📢</tg-emoji> <a href=\"https://t.me/astralix_ub\"><b>Канал</b></a>"
+
   _cls_doc: "Хелпа по модулям"
   partial_load: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Юзербот еще грузится, не все моды видно</b>"
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Точно не нашел, вот похожее</b>"
-  request_join: "Ссылку на саппорт запросил"
+
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Это встроенный (core) модуль. Не трогай его</b>"
   _cmd_doc_help: "[модуль] [-f] - Показать хелп"
   _cmd_doc_helphide: "<модули> - Спрятать модули из хелпа (через пробел)"
-  _cmd_doc_support: "Дать ссылку на чат"
+
   show_preview_in_help: "Показать # meta banner в превью команды help [module], еще посидим"
 
   name: Help

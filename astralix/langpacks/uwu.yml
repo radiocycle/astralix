@@ -535,17 +535,17 @@ help:
   help_lib: "<tg-emoji emoji-id=5404553572727660202>❌</tg-emoji> <b>Package</b> <code>{}</code> <b>is a wibwawy.</b>\n<tg-emoji emoji-id=5404553572727660202>❌</tg-emoji> <b>Wibwawies do nyot have descwiptions...</b>"
   developer: "<tg-emoji emoji-id=5287454910059654880>🫶</tg-emoji> Devewopew: {}"
   hidden_shown: "<b>{} moduwes hidden, {} moduwes shown:</b>\n{}\n{}"
-  offchats: "<tg-emoji emoji-id=6019130940012370273>❔</tg-emoji> <a href=\"https://t.me/astralix_talks\"><b>Suppowt chat</b></a>\n\n<tg-emoji emoji-id=6019151079114021083>💬</tg-emoji> <a href=\"https://t.me/astralix_offtop\"><b>Offtop chat</b></a>\n\n<tg-emoji emoji-id=6019094432790354513>📢</tg-emoji> <a href=\"https://t.me/astralix_ub\"><b>Officiaw channyew</b></a>"
+
   partial_load: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Usewbot is nyot fuwwy woaded, so nyot aww moduwes awe shown</b>"
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Nyo exact match occuwed, so da cwosest wesuwt is shown instead</b>"
-  request_join: "You wequested wink fow astralix suppowt chat"
+
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Dis is a cowe moduwe. You can't unwoad it nyow wepwace</b>"
   show_preview_in_help: "Show # meta bannyew in hewp pweview [moduwe] pwease~ :3 OwO"
 
   _cls_doc: Shows hewp fow moduwes and commands
   _cmd_doc_help: '[moduwe] - Show hewp fow moduwes and commands'
   _cmd_doc_helphide: <moduwe ...> - Hide ow show moduwes in hewp
-  _cmd_doc_support: Show suppowt chat wink
+
 astralix_info:
   info_message: "{}\n<blockquote>┌\n├  【<tg-emoji emoji-id=5883964170268840032>👤</tg-emoji>】 <b>Ownew</b>: {me}\n├  【<tg-emoji emoji-id=5931415565955503486>🤖</tg-emoji>】 <b>Vewsion</b>: {version}\n└</blockquote>\n<blockquote>┌\n├  【<tg-emoji emoji-id=5778335621491723621>📷</tg-emoji>】 <b>Pwefix</b>: {prefix}⠀ ⠀ \n├  【<tg-emoji emoji-id=5843799474362652262>🔄</tg-emoji>】 <b>Uptime</b>: {uptime}\n├  【<tg-emoji emoji-id=5879770735999717115>👤</tg-emoji>】 <b>Bwanch</b>: {branch}\n└</blockquote>\n<blockquote>┌\n├  【<tg-emoji emoji-id=5775887550262546277>❗️</tg-emoji>】 <b>CPU</b>: {cpu_usage}\n├  【<tg-emoji emoji-id=5931409969613116639>🛡</tg-emoji>】 <b>WAM</b>: {ram_usage}\n├  【<tg-emoji emoji-id=5931472654660800739>📊</tg-emoji>】 <b>Ping</b>: {ping}\n└</blockquote>\n<blockquote>┌\n├  【<tg-emoji emoji-id=5926783847453692661>🛡</tg-emoji>】 <b>Update</b>: {upd}\n├  【<tg-emoji emoji-id=5931415565955503486>🤖</tg-emoji>】 <b>Host</b>: {platform}\n├  【<tg-emoji emoji-id=5819078828017849357>🤖</tg-emoji>】 <b>OS</b>: {os}\n├  【<tg-emoji emoji-id=5819078828017849357>🤖</tg-emoji>】 <b>Pydon Vewsion</b>: {python_ver}\n└</blockquote>"
   non_detectable: "<tg-emoji emoji-id=5210952531676504517>❌</tg-emoji> <b>Dis component cannyot be detected on youw sewvew!</b>"

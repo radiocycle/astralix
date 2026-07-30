@@ -535,16 +535,16 @@ help:
   help_lib: "<tg-emoji emoji-id=5404553572727660202>❌</tg-emoji> <b>{} is a Library.</b>\n<tg-emoji emoji-id=5404553572727660202>❌</tg-emoji> <b>Libraries have no docs.</b>"
   developer: "<tg-emoji emoji-id=5287454910059654880>🫶</tg-emoji> Dev: {}"
   hidden_shown: "<b>{} hidden, {} shown:</b>\n{}\n{}"
-  offchats: "<tg-emoji emoji-id=6019130940012370273>❔</tg-emoji> <a href=\"https://t.me/astralix_talks\"><b>Support</b></a>\n\n<tg-emoji emoji-id=6019151079114021083>💬</tg-emoji> <a href=\"https://t.me/astralix_offtop\"><b>Offtop</b></a>\n\n<tg-emoji emoji-id=6019094432790354513>📢</tg-emoji> <a href=\"https://t.me/astralix_ub\"><b>Channel</b></a>"
+
   partial_load: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Partial boot detected. Module list incomplete.</b>"
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Fuzzy match result.</b>"
-  request_join: "Link requested"
+
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Kernel module. Cannot unload/replace.</b>"
 
   _cls_doc: Prints module and command manuals
   _cmd_doc_help: '[module] - Print help for modules and commands'
   _cmd_doc_helphide: <module ...> - Hide/show modules in help output
-  _cmd_doc_support: Print support chat link
+
   show_preview_in_help: 'Show # meta banner in help preview [module]'
 astralix_info:
   info_message: "{}\n<blockquote>┌\n├  【<tg-emoji emoji-id=5883964170268840032>👤</tg-emoji>】 <b>𝚁𝚘𝚘𝚝</b>: {me}\n├  【<tg-emoji emoji-id=5931415565955503486>🤖</tg-emoji>】 <b>𝚅𝚎𝚛</b>: {version}\n└</blockquote>\n<blockquote>┌\n├  【<tg-emoji emoji-id=5778335621491723621>📷</tg-emoji>】 <b>𝙿𝚛𝚎𝚏𝚒𝚡</b>: {prefix}⠀ ⠀ \n├  【<tg-emoji emoji-id=5843799474362652262>🔄</tg-emoji>】 <b>𝚄𝚙𝚝𝚒𝚖𝚎</b>: {uptime}\n├  【<tg-emoji emoji-id=5879770735999717115>👤</tg-emoji>】 <b>𝙱𝚛𝚊𝚗𝚌𝚑</b>: {branch}\n└</blockquote>\n<blockquote>┌\n├  【<tg-emoji emoji-id=5775887550262546277>❗️</tg-emoji>】 <b>𝙲𝙿𝚄</b>: {cpu_usage}\n├  【<tg-emoji emoji-id=5931409969613116639>🛡</tg-emoji>】 <b>𝚁𝙰𝙼</b>: {ram_usage}\n├  【<tg-emoji emoji-id=5931472654660800739>📊</tg-emoji>】 <b>𝙿𝚒𝚗𝚐</b>: {ping}\n└</blockquote>\n<blockquote>┌\n├  【<tg-emoji emoji-id=5926783847453692661>🛡</tg-emoji>】 <b>𝚄𝚙𝚍𝚊𝚝𝚎</b>: {upd}\n├  【<tg-emoji emoji-id=5931415565955503486>🤖</tg-emoji>】 <b>𝙷𝚘𝚜𝚝</b>: {platform}\n├  【<tg-emoji emoji-id=5819078828017849357>🤖</tg-emoji>】 <b>𝙾𝚂</b>: {os}\n├  【<tg-emoji emoji-id=5819078828017849357>🤖</tg-emoji>】 <b>𝙿𝚢𝚝𝚑𝚘𝚗</b>: {python_ver}\n└</blockquote>"

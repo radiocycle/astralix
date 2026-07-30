@@ -538,15 +538,13 @@ help:
   help_lib: "<tg-emoji emoji-id=5404553572727660202>❌</tg-emoji> <b>Пакет</b> <code>{}</code> <b>является библиотекой.</b>\n<tg-emoji emoji-id=5404553572727660202>❌</tg-emoji> <b>У библиотек нет описания...</b>"
   developer: "<tg-emoji emoji-id=5287454910059654880>🫶</tg-emoji> Разработчик: {}"
   hidden_shown: "<b>{} модулей скрыто, {} модулей показано:</b>\n{}\n{}"
-  offchats: "<tg-emoji emoji-id=6019130940012370273>❔</tg-emoji> <a href=\"https://t.me/astralix_talks\"><b>Чат поддержки</b></a>\n\n<tg-emoji emoji-id=6019151079114021083>💬</tg-emoji> <a href=\"https://t.me/astralix_offtop\"><b>Оффтоп чат</b></a>\n\n<tg-emoji emoji-id=6019094432790354513>📢</tg-emoji> <a href=\"https://t.me/astralix_ub\"><b>Официальный канал</b></a>"
   _cls_doc: "Показывает помощь по модулям"
   partial_load: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Юзербот еще не загрузился полностью, поэтому показаны не все модули</b>"
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Точного совпадения не нашлось, поэтому было выбрано наиболее подходящее</b>"
-  request_join: "Вы запросили ссылку на чат помощи astralix"
+
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Это встроенный модуль. Вы не можете его выгрузить или заменить</b>"
   _cmd_doc_help: "[модуль] [-f] - Показать помощь"
   _cmd_doc_helphide: "<модуль или модули> - Спрятать модуль(-и) из помощи\n*Разделяй модули пробелами"
-  _cmd_doc_support: "Показать ссылку на чат помощи astralix"
   show_preview_in_help: "Показать # meta banner в превью help [module] ?"
 
   name: Help

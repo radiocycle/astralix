@@ -534,17 +534,17 @@ help:
   help_lib: "<tg-emoji emoji-id=5404553572727660202>❌</tg-emoji> <b>P4ck4g3</b> <code>{}</code> <b>15 4 l1b.</b>\n<tg-emoji emoji-id=5404553572727660202>❌</tg-emoji> <b>L1b5 d0 n07 h4v3 d35cr1p710n5...</b>"
   developer: "<tg-emoji emoji-id=5287454910059654880>🫶</tg-emoji> D3v3l0p3r: {}"
   hidden_shown: "<b>{} m0dul35 h1dd3n, {} m0dul35 sh0wn:</b>\n{}\n{}"
-  offchats: "<tg-emoji emoji-id=6019130940012370273>❔</tg-emoji> <a href=\"https://t.me/astralix_talks\"><b>Supp0r7 ch47</b></a>\n\n<tg-emoji emoji-id=6019151079114021083>💬</tg-emoji> <a href=\"https://t.me/astralix_offtop\"><b>0ff70p ch47</b></a>\n\n<tg-emoji emoji-id=6019094432790354513>📢</tg-emoji> <a href=\"https://t.me/astralix_ub\"><b>0ff1c14l ch4nn3l</b></a>"
+
   partial_load: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Us3rb07 15 n07 fully l04d3d, 50 n07 4ll m0dul35 r sh0wn</b>"
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>N0 3x4c7 m47ch 0ccur3d, 50 7h3 cl05357 r35ul7 15 sh0wn 1n5734d</b>"
-  request_join: "U r3qu3573d l1nk 4 H3r0ku supp0r7 ch47"
+
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>7h15 15 4 c0r3 m0dul3. U c4n'7 unl04d 17 n0r r3pl4c3</b>"
   show_preview_in_help: "5h0w # m374 b4nn3r 1n h3lp pr3v13w [m0dul3]"
 
   _cls_doc: 5h0w5 h3lp f0r m0dul35 4nd c0mm4nd5
   _cmd_doc_help: '[m0dul3] - 5h0w h3lp f0r m0dul35 4nd c0mm4nd5'
   _cmd_doc_helphide: <m0dul3 ...> - h1d3 0r 5h0w m0dul35 1n h3lp
-  _cmd_doc_support: 5h0w 5upp0r7 ch47 l1nk
+
 astralix_info:
   info_message: "{}\n<blockquote>┌\n├  【<tg-emoji emoji-id=5883964170268840032>👤</tg-emoji>】 <b>0wn3r</b>: {me}\n├  【<tg-emoji emoji-id=5931415565955503486>🤖</tg-emoji>】 <b>V3r510n</b>: {version}\n└</blockquote>\n<blockquote>┌\n├  【<tg-emoji emoji-id=5778335621491723621>📷</tg-emoji>】 <b>Pr3f1x</b>: {prefix}⠀ ⠀ \n├  【<tg-emoji emoji-id=5843799474362652262>🔄</tg-emoji>】 <b>Up71m3</b>: {uptime}\n├  【<tg-emoji emoji-id=5879770735999717115>👤</tg-emoji>】 <b>Br4nch</b>: {branch}\n└</blockquote>\n<blockquote>┌\n├  【<tg-emoji emoji-id=5775887550262546277>❗️</tg-emoji>】 <b>CPU</b>: {cpu_usage}\n├  【<tg-emoji emoji-id=5931409969613116639>🛡</tg-emoji>】 <b>RAM</b>: {ram_usage}\n├  【<tg-emoji emoji-id=5931472654660800739>📊</tg-emoji>】 <b>P1ng</b>: {ping}\n└</blockquote>\n<blockquote>┌\n├  【<tg-emoji emoji-id=5926783847453692661>🛡</tg-emoji>】 <b>Upd473</b>: {upd}\n├  【<tg-emoji emoji-id=5931415565955503486>🤖</tg-emoji>】 <b>H057</b>: {platform}\n├  【<tg-emoji emoji-id=5819078828017849357>🤖</tg-emoji>】 <b>OS</b>: {os}\n├  【<tg-emoji emoji-id=5819078828017849357>🤖</tg-emoji>】 <b>Py7h0n V3r</b>: {python_ver}\n└</blockquote>"
   non_detectable: "<tg-emoji emoji-id=5210952531676504517>❌</tg-emoji> <b>7h15 c0mp0n3n7 c4nn07 b3 d373c73d 0n ur s3rv3r!</b>"
