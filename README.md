@@ -140,7 +140,7 @@ journalctl -u astralix -f      # live logs
 | 🔒 **Enhanced Security** | Native entity caching and targeted security rules |
 | 🎨 **Configurable Banners** | `banner_url`, `quote_media`, `invert_media` on `.astralix` and `.info` |
 | ⏱ **Rapid Bug Fixes** | Faster resolution than FTG/GeekTG |
-| 🔄 **Backward Compatibility** | Import hook redirects `astralixtl`/`hikkatl` → `telethon` for loaded modules |
+| 🔄 **Backward Compatibility** | Import hook redirects `hikkatl` → `telethon` for loaded modules |
 | ▶️ **Inline Elements** | Forms, galleries and lists support |
 
 ---
