@@ -21,6 +21,7 @@ import sys
 from pathlib import Path
 
 from ._internal import restart
+from .dependency_manager import build_uv_command
 
 if "--no-git" in sys.argv:
     os.environ["astralix_NO_GIT"] = "1"
@@ -100,14 +101,7 @@ def get_file_hash(filename):
 def deps():
     subprocess.run(
         [
-            sys.executable,
-            "-m",
-            "pip",
-            "install",
-            "--upgrade",
-            "-q",
-            "--disable-pip-version-check",
-            "--no-warn-script-location",
+            *build_uv_command([], sys.executable),
             "-r",
             "requirements.txt",
         ],

@@ -474,7 +474,7 @@ class Module:
         """
 
         from . import utils  # Avoiding circular import
-        from .loader import USER_INSTALL, VALID_PIP_PACKAGES
+        from .dependency_manager import build_uv_command, parse_requirements
         from .translations import Strings
 
         def _raise(e: Exception):
@@ -524,23 +524,7 @@ class Module:
                 "Library loading failed, attemping dependency installation (%s)",
                 e.name,
             )
-            # Let's try to reinstall dependencies
-            try:
-                requirements = list(
-                    filter(
-                        lambda x: not x.startswith(("-", "_", ".")),
-                        map(
-                            str.strip,
-                            VALID_PIP_PACKAGES.search(code)[1].split(),
-                        ),
-                    )
-                )
-            except TypeError:
-                logger.warning(
-                    "No valid pip packages specified in code, attemping"
-                    " installation from error"
-                )
-                requirements = [e.name]
+            requirements = parse_requirements(code)
 
             logger.debug("Installing requirements: %s", requirements)
 
@@ -549,16 +533,7 @@ class Module:
 
             utils.ensure_child_watcher()
             pip = await asyncio.create_subprocess_exec(
-                sys.executable,
-                "-m",
-                "pip",
-                "install",
-                "--upgrade",
-                "-q",
-                "--disable-pip-version-check",
-                "--no-warn-script-location",
-                *["--user"] if USER_INSTALL else [],
-                *requirements,
+                *build_uv_command(requirements, sys.executable),
             )
 
             rc = await pip.wait()

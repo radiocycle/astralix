@@ -22,7 +22,7 @@ if not NO_GIT:
 else:
     git = None
 if NO_GIT:
-    branch = "master"
+    branch = "main"
 else:
     try:
         assert git is not None
@@ -31,4 +31,4 @@ else:
         ) as repo:
             branch = repo.active_branch.name
     except Exception:
-        branch = "master"
+        branch = "main"

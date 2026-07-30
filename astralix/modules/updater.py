@@ -41,6 +41,7 @@ from telethon.tl.types import (
 from .. import loader, utils, version
 from .._internal import restart
 from ..inline.types import BotInlineCall, InlineCall
+from ..update_transaction import prepare_update_watchdog, transactional_checkout
 
 logger = logging.getLogger(__name__)
 NO_GIT = os.environ.get("astralix_NO_GIT") == "1"
@@ -65,7 +66,7 @@ class UpdaterMod(loader.Module):
         self.config = loader.ModuleConfig(
             loader.ConfigValue(
                 "GIT_ORIGIN_URL",
-                "https://github.com/coddrago/astralix",
+                "https://github.com/radiocycle/astralix",
                 lambda: self.strings["origin_cfg_doc"],
                 validator=loader.validators.Link(),
             ),
@@ -249,7 +250,7 @@ class UpdaterMod(loader.Module):
                 try:
                     async with aiohttp.ClientSession() as session:
                         r = await session.get(
-                            url=f"https://api.github.com/repos/coddrago/astralix/contents/astralix/version.py?ref={version.branch}",
+                            url=f"https://api.github.com/repos/radiocycle/astralix/contents/astralix/version.py?ref={version.branch}",
                             headers={"Accept": "application/vnd.github.v3.raw"},
                         )
                         text = await r.text()
@@ -273,7 +274,7 @@ class UpdaterMod(loader.Module):
                     "https://raw.githubusercontent.com/coddrago/assets/refs/heads/main/astralix/updated.png",
                     caption=self.strings["update_required"].format(
                         current[:6],
-                        '<a href="https://github.com/coddrago/astralix/compare/{}...{}">{}</a>'.format(
+                        '<a href="https://github.com/radiocycle/astralix/compare/{}...{}">{}</a>'.format(
                             current[:12],
                             self._pending[:12],
                             self._pending[:6],
@@ -297,7 +298,7 @@ class UpdaterMod(loader.Module):
                     caption=self.strings["autoupdate_notifier"].format(
                         self._pending[:6],
                         changelog,
-                        '<a href="https://github.com/coddrago/astralix/compare/{}...{}">{}</a>'.format(
+                        '<a href="https://github.com/radiocycle/astralix/compare/{}...{}">{}</a>'.format(
                             current[:12],
                             self._pending[:12],
                             "🔎 diff",
@@ -499,58 +500,105 @@ class UpdaterMod(loader.Module):
 
     async def download_common(self):
         def _sync():
-            try:
-                with Repo(os.path.dirname(utils.get_base_dir())) as repo:
-                    origin = repo.remote("origin")
-                    logger.debug("Fetching updates from %s", origin.url)
-                    r = origin.pull()
-                    new_commit = repo.head.commit
-                    for info in r:
-                        if info.old_commit:
-                            for d in new_commit.diff(info.old_commit):
-                                if d.b_path == "requirements.txt":
-                                    return True
-                return False
-            except git.exc.InvalidGitRepositoryError:
-                repo = Repo.init(os.path.dirname(utils.get_base_dir()))
-                with repo:
-                    origin = repo.create_remote("origin", self.config["GIT_ORIGIN_URL"])
-                    logger.debug("Fetching initial updates from %s", origin.url)
-                    origin.fetch()
-                    repo.create_head("master", origin.refs.master)
-                    repo.heads.master.set_tracking_branch(origin.refs.master)
-                    repo.heads.master.checkout(True)
-                return False
+            root = os.path.dirname(utils.get_base_dir())
+            with Repo(root) as repo:
+                if repo.is_dirty(untracked_files=False):
+                    raise RuntimeError("Refusing to update with uncommitted tracked changes")
+                origin = repo.remote("origin")
+                logger.debug("Fetching updates from %s", origin.url)
+                origin.fetch()
+                previous = repo.head.commit.hexsha
+                target = repo.commit(f"origin/{version.branch}").hexsha
+                changed = previous != target
+                freeze_path = os.path.join(root, ".astralix-update-freeze.txt")
+                freeze = subprocess.run(
+                    ["uv", "pip", "freeze", "--python", sys.executable],
+                    cwd=root,
+                    check=True,
+                    timeout=120,
+                    capture_output=True,
+                    text=True,
+                ).stdout
+                with open(freeze_path, "w", encoding="utf-8") as file:
+                    file.write(freeze)
+
+                def checkout(ref):
+                    repo.git.reset("--hard", ref)
+
+                def install():
+                    subprocess.run(
+                        [
+                            "uv",
+                            "pip",
+                            "install",
+                            "--python",
+                            sys.executable,
+                            "-r",
+                            os.path.join(root, "requirements.txt"),
+                        ],
+                        cwd=root,
+                        check=True,
+                        timeout=600,
+                        capture_output=True,
+                    )
+
+                def validate():
+                    subprocess.run(
+                        [sys.executable, "-m", "compileall", "-q", "astralix"],
+                        cwd=root,
+                        check=True,
+                        timeout=120,
+                        capture_output=True,
+                    )
+                    subprocess.run(
+                        [sys.executable, "-m", "astralix", "--help"],
+                        cwd=root,
+                        check=True,
+                        timeout=60,
+                        capture_output=True,
+                    )
+
+                def rollback_environment():
+                    subprocess.run(
+                        [
+                            "uv",
+                            "pip",
+                            "sync",
+                            "--python",
+                            sys.executable,
+                            freeze_path,
+                        ],
+                        cwd=root,
+                        check=True,
+                        timeout=600,
+                        capture_output=True,
+                    )
+
+                try:
+                    transactional_checkout(
+                        previous,
+                        target,
+                        checkout,
+                        install,
+                        validate,
+                        rollback_environment,
+                    )
+                except Exception:
+                    os.unlink(freeze_path)
+                    raise
+                if changed:
+                    prepare_update_watchdog(
+                        root, previous, target=target, freeze_path=freeze_path
+                    )
+                else:
+                    os.unlink(freeze_path)
+                return changed
 
         return await asyncio.wait_for(
             asyncio.to_thread(_sync),
-            timeout=120,
+            timeout=900,
         )
 
-    @staticmethod
-    def req_common():
-        # Now we have downloaded new code, install requirements
-        logger.debug("Installing new requirements...")
-        try:
-            subprocess.run(
-                [
-                    sys.executable,
-                    "-m",
-                    "pip",
-                    "install",
-                    "-r",
-                    os.path.join(
-                        os.path.dirname(utils.get_base_dir()),
-                        "requirements.txt",
-                    ),
-                    "--user",
-                ],
-                check=True,
-                timeout=600,
-                capture_output=True,
-            )
-        except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
-            logger.exception("Req install failed")
 
     @loader.command()
     async def update(self, message: Message):
@@ -622,16 +670,15 @@ class UpdaterMod(loader.Module):
                 msg_obj = await utils.answer(msg_obj, self.strings["downloading"])
 
             try:
-                req_update = await self.download_common()
-            except TimeoutError:
-                logger.exception("Timed out while fetching updates from git remote")
+                await self.download_common()
+            except Exception:
+                logger.exception("Transactional update failed and was rolled back")
+                with contextlib.suppress(Exception):
+                    await utils.answer(msg_obj, self.strings["requirements_failed"])
                 return
 
             with contextlib.suppress(Exception):
                 msg_obj = await utils.answer(msg_obj, self.strings["installing"])
-
-            if req_update:
-                self.req_common()
 
             await self.restart_common(msg_obj)
         except GitCommandError:

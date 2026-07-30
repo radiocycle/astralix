@@ -39,6 +39,9 @@ from telethon.tl.functions.channels import JoinChannelRequest
 from telethon.tl.types import Channel, InputMediaWebPage
 
 from .. import loader, main, utils
+from ..dependency_manager import parse_requirements
+from ..dependency_manager import build_uv_command
+from ..update_transaction import mark_update_ready
 from .._local_storage import RemoteStorage
 from ..inline.types import InlineCall
 from ..types import CoreOverwriteError, CoreUnloadError
@@ -140,10 +143,10 @@ class LoaderMod(loader.Module):
 
         self.allmodules.add_aliases(settings.get("aliases", {}))
 
+        await self._async_init()
+        await self._update_modules()
         main.astralix.ready.set()
-
-        asyncio.ensure_future(self._update_modules())
-        asyncio.ensure_future(self._async_init())
+        mark_update_ready(os.path.dirname(utils.get_base_dir()))
 
     @loader.loop(interval=3, wait_before=True, autostart=True)
     async def _config_autosaver(self):
@@ -538,23 +541,7 @@ class LoaderMod(loader.Module):
         )
 
     async def install_requirements(self, requirements: list):
-        is_venv = hasattr(sys, "real_prefix") or sys.prefix != getattr(
-            sys, "base_prefix", sys.prefix
-        )
-        need_user_flag = loader.USER_INSTALL and not is_venv
-
-        cmd = [
-            sys.executable,
-            "-m",
-            "pip",
-            "install",
-            "--upgrade",
-            "-q",
-            "--disable-pip-version-check",
-            "--no-warn-script-location",
-            *(["--user"] if need_user_flag else []),
-            *requirements,
-        ]
+        cmd = build_uv_command(requirements, sys.executable)
 
         utils.ensure_child_watcher()
         try:
@@ -566,12 +553,12 @@ class LoaderMod(loader.Module):
 
             out, err = await pip.communicate()
         except Exception:
-            logger.exception("Pip requirements install failed to start: %s", cmd)
+            logger.exception("uv requirements install failed to start: %s", cmd)
             return False
 
         if pip.returncode != 0:
             logger.error(
-                "Pip requirements install failed (%s) with exit code %s: %s",
+                "uv requirements install failed (%s) with exit code %s: %s",
                 " ".join(cmd),
                 pip.returncode,
                 (err or out).decode(errors="ignore").strip() or "<no output>",
@@ -728,19 +715,7 @@ class LoaderMod(loader.Module):
         developer = developer.group(1) if developer else False
 
         if not did_requires:
-            requirements = []
-            try:
-                requirements = list(
-                    filter(
-                        lambda x: not x.startswith(("-", "_", ".")),
-                        map(
-                            str.strip,
-                            loader.VALID_PIP_PACKAGES.search(doc)[1].split(),
-                        ),
-                    )
-                )
-            except TypeError:
-                pass
+            requirements = parse_requirements(doc)
 
             if requirements:
                 result = await self.install_requirements(requirements)
@@ -870,7 +845,7 @@ class LoaderMod(loader.Module):
                     "Module loading failed, attemping dependency installation (%s)",
                     e.name,
                 )
-                requirements = [loader.IMPORT_PIP_ALIASES.get(e.name.lower(), e.name)]
+                requirements = parse_requirements(doc or "")
 
                 if not requirements:
                     raise Exception("Nothing to install") from e

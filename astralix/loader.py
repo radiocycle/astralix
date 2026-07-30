@@ -34,6 +34,7 @@ from uuid import uuid4
 from telethon.tl.tlobject import TLObject
 
 from . import main, security, utils, validators
+from .dependency_manager import parse_requirements
 from .database import Database
 from .inline.core import BotUpdateType, InlineManager
 from .translations import Strings, Translator
@@ -725,25 +726,10 @@ class Modules:
                     if isinstance(data, bytes):
                         data = data.decode("utf-8", errors="ignore")
 
-                    match = VALID_PIP_PACKAGES.search(data)
-                    if not match:
+                    requirements = parse_requirements(data)
+
+                    if not requirements:
                         raise
-
-                    requirements = list(
-                        filter(
-                            lambda x: not x.startswith(("-", "_", ".")),
-                            map(
-                                str.strip,
-                                match.group(1).split(),
-                            ),
-                        )
-                    )
-
-                    exc_name = (getattr(e, "name", None) or "").lower()
-
-                    requirements.extend(
-                        [IMPORT_PIP_ALIASES.get(exc_name, exc_name or e.name or "")]
-                    )
 
                     result = await self.lookup("LoaderMod").install_requirements(
                         requirements

@@ -111,7 +111,7 @@ class CoreMod(loader.Module):
     async def astralixcmd(self, message: Message):
 
         branch_text = ""
-        if version.branch == "master":
+        if version.branch in {"main", "master"}:
             branch_text = ""
         elif version.branch == "beta" or self.tg_id in [
             1714120111,
