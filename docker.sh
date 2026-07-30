@@ -1,6 +1,6 @@
 #!/bin/bash
 
-eval "git clone https://github.com/coddrago/astralix"
+eval "git clone https://github.com/radiocycle/astralix"
 cd astralix
 
 touch astralix-install.log

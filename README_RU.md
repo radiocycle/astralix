@@ -4,36 +4,36 @@
   <p>Продвинутый юзербот для Telegram с повышенной безопасностью и современными функциями</p>
 
   <p>
-    <a href="https://www.codacy.com/gh/coddrago/astralix/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=coddrago/astralix&amp;utm_campaign=Badge_Grade">
+    <a href="https://www.codacy.com/gh/radiocycle/astralix/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=radiocycle/astralix&amp;utm_campaign=Badge_Grade">
       <img src="https://app.codacy.com/project/badge/Grade/97e3ea868f9344a5aa6e4d874f83db14" alt="Codacy Grade">
     </a>
     <a href="#">
-      <img src="https://img.shields.io/github/languages/code-size/coddrago/astralix" alt="Code Size">
+      <img src="https://img.shields.io/github/languages/code-size/radiocycle/astralix" alt="Code Size">
     </a>
     <a href="#">
-      <img src="https://img.shields.io/github/issues-raw/coddrago/astralix" alt="Open Issues">
+      <img src="https://img.shields.io/github/issues-raw/radiocycle/astralix" alt="Open Issues">
     </a>
     <a href="#">
-      <img src="https://img.shields.io/github/license/coddrago/astralix" alt="License">
+      <img src="https://img.shields.io/github/license/radiocycle/astralix" alt="License">
     </a>
     <a href="#">
-      <img src="https://img.shields.io/github/commit-activity/m/coddrago/astralix" alt="Commit Activity">
+      <img src="https://img.shields.io/github/commit-activity/m/radiocycle/astralix" alt="Commit Activity">
     </a>
     <br>
     <a href="#">
-      <img src="https://img.shields.io/github/forks/coddrago/astralix?style=flat" alt="Forks">
+      <img src="https://img.shields.io/github/forks/radiocycle/astralix?style=flat" alt="Forks">
     </a>
     <a href="#">
-      <img src="https://img.shields.io/github/stars/coddrago/astralix" alt="Stars">
+      <img src="https://img.shields.io/github/stars/radiocycle/astralix" alt="Stars">
     </a>
     <a href="https://github.com/psf/black">
       <img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code Style: Black">
     </a>
     <br>
-    <a href="https://github.com/coddrago/astralix/blob/master/README.md">
+    <a href="https://github.com/radiocycle/astralix/blob/master/README.md">
       <img src="https://img.shields.io/badge/lang-en-red.svg" alt="En">
     </a>
-    <a href="https://github.com/coddrago/astralix/blob/master/README_RU.md">
+    <a href="https://github.com/radiocycle/astralix/blob/master/README_RU.md">
       <img src="https://img.shields.io/badge/lang-ru-green.svg" alt="Ru">
     </a>
   </p>
@@ -64,7 +64,7 @@
 
   ```bash
   sudo apt update && sudo apt install git python3 -y && \
-  git clone https://github.com/coddrago/astralix && \
+  git clone https://github.com/radiocycle/astralix && \
   cd astralix && \
   python3 -m venv .venv && \
   source .venv/bin/activate && \
@@ -78,7 +78,7 @@
   
   ```bash
   sudo dnf update -y && sudo dnf install git python3 -y && \
-  git clone https://github.com/coddrago/astralix && \
+  git clone https://github.com/radiocycle/astralix && \
   cd astralix && \
   python3 -m venv .venv && \
   source .venv/bin/activate && \
@@ -92,7 +92,7 @@
   
 ```bash
 sudo pacman -Syu --noconfirm && sudo pacman -S git python --noconfirm --needed && \
-git clone https://github.com/coddrago/astralix && \
+git clone https://github.com/radiocycle/astralix && \
 cd astralix && \
 python3 -m venv .venv && \
 source .venv/bin/activate && \
@@ -126,7 +126,7 @@ curl -Ss https://bootstrap.pypa.io/get-pip.py | python3
 
 4. **Введите эту команду (ПКМ):**
 ```bash
-clear && git clone https://github.com/coddrago/astralix && cd astralix && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python3 -m astralix
+clear && git clone https://github.com/radiocycle/astralix && cd astralix && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python3 -m astralix
 ```
 > **🔗Как получить API_ID и API_HASH?:** [Видео](https://youtu.be/DcqDA249Lhg?t=24)
   
@@ -140,7 +140,7 @@ clear && git clone https://github.com/coddrago/astralix && cd astralix && python
 3. <b>Дождитесь установки дистрибутива, можете заварить чай</b>
 4. <b>После успешной установки перед вами откроется терминал, введите туда:</b>
 ```bash
-sudo apt update && sudo apt upgrade -y && sudo apt install python3 git python3-pip -y && git clone https://github.com/coddrago/astralix && cd astralix && python3 -m venv .venv && source .venv/bin/activate && sudo pip install -r requirements.txt && python3 -m astralix
+sudo apt update && sudo apt upgrade -y && sudo apt install python3 git python3-pip -y && git clone https://github.com/radiocycle/astralix && cd astralix && python3 -m venv .venv && source .venv/bin/activate && sudo pip install -r requirements.txt && python3 -m astralix
 ```
 5. <b>В конце установки появится ссылка, перейдите по ней и введите данные своей учетной записи для входа.</b>
 > Вуаля! Вы установили astralix на UserLAnd.

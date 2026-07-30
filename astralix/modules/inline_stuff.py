@@ -129,7 +129,7 @@ class InlineStuff(loader.Module):
                             [
                                 {
                                     "text": "GitHub",
-                                    "url": "https://github.com/coddrago/astralix",
+                                    "url": "https://github.com/radiocycle/astralix",
                                     "emoji_id": "5231065262228250587",
                                 }
                             ],

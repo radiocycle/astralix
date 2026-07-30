@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 WORKDIR /data
 RUN mkdir /data/private
 
-RUN git clone https://github.com/coddrago/astralix /data/astralix
+RUN git clone https://github.com/radiocycle/astralix /data/astralix
 
 WORKDIR /data/astralix
 
