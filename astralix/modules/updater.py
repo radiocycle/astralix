@@ -903,7 +903,28 @@ class UpdaterMod(loader.Module):
             ].format(utils.ascii_face(), took, fails)
 
         if ms is None:
-            await self.inline.bot.send_message(self.tg_id, msg)
+            tester = self.lookup("tester")
+            startup_chat = getattr(tester, "logchat", -1003579389365)
+            startup_topic = await utils.get_topic_id(self.db, "Logs")
+            try:
+                sent = await self.inline.bot.send_message(
+                    startup_chat,
+                    msg,
+                    message_thread_id=startup_topic,
+                )
+            except Exception:
+                logger.exception(
+                    "Failed to send startup status to %s topic %s",
+                    startup_chat,
+                    startup_topic,
+                )
+                return
+            logger.info(
+                "Startup status sent to %s topic %s as message %s",
+                startup_chat,
+                startup_topic,
+                sent.message_id,
+            )
             return
 
         self.set("selfupdatemsg", None)
