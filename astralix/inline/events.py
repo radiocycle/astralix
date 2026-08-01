@@ -138,6 +138,56 @@ class Events(InlineUnit):
         await self._form_inline_handler(wrapped_query)
         await self._gallery_inline_handler(wrapped_query)
         await self._list_inline_handler(wrapped_query)
+        await self._rich_inline_handler(wrapped_query)
+
+    async def _rich_inline_handler(self: "InlineManager", inline_query):
+        """Inline query handler for rich (rich_message) units"""
+        try:
+            query = inline_query.query.split()[0]
+        except IndexError:
+            return
+
+        unit = self._units.get(query)
+        if not unit or unit.get("type") != "rich":
+            return
+
+        from telethon.tl.types import (
+            InputBotInlineMessageRichMessage,
+            InputBotInlineResult,
+            InputRichMessageHTML,
+            KeyboardButtonRow,
+            ReplyInlineMarkup,
+        )
+
+        try:
+            # Invisible unicode button: without a reply_markup Telegram
+            # doesn't emit UpdateBotInlineSend, so the userbot can't obtain
+            # inline_message_id and edit the message afterwards.
+            buttons = self.generate_markup(
+                self._validate_markup({"text": "\u00ad", "data": "\u00ad"})
+            )
+            await inline_query.answer(
+                [
+                    InputBotInlineResult(
+                        id=utils.rand(20),
+                        type="article",
+                        title="astralix rich message",
+                        send_message=InputBotInlineMessageRichMessage(
+                            rich_message=InputRichMessageHTML(html=unit["html"]),
+                            reply_markup=ReplyInlineMarkup(
+                                rows=[
+                                    KeyboardButtonRow(buttons=row)
+                                    for row in (buttons or [])
+                                ]
+                            ),
+                        ),
+                    )
+                ],
+                cache_time=0,
+                private=True,
+            )
+        except Exception:
+            logger.exception("Exception when answering rich inline query")
 
     async def _build_inline_result(
         self: "InlineManager", query: InlineQuery, res: dict

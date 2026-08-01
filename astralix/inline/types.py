@@ -11,6 +11,45 @@ if typing.TYPE_CHECKING:
     from .core import InlineManager
 
 
+class RichMessage:
+    """Message sent via inline bot as a rich (InputRichMessageHTML) message.
+
+    Proxies attribute access to the real ``Message``, so it can be used
+    anywhere a ``Message`` is expected (``hash_msg``, ``utils.get_chat_id``,
+    etc.), but also carries ``inline_message_id`` for rich edits via
+    ``InlineManager.edit_rich``.
+    """
+
+    def __init__(
+        self,
+        inline_manager: "InlineManager",
+        message,
+        inline_message_id: str | None = None,
+    ):
+        self._inline_manager = inline_manager
+        self.message = message
+        self.inline_message_id = inline_message_id
+
+    def __getattr__(self, item):
+        return getattr(self.message, item)
+
+    def __setattr__(self, key, value):
+        if key in {"_inline_manager", "message", "inline_message_id"}:
+            super().__setattr__(key, value)
+        else:
+            setattr(self.message, key, value)
+
+    async def edit(self, html: str) -> bool:
+        """Edit this rich inline message with new rich HTML."""
+        if not self.inline_message_id:
+            return False
+        return await self._inline_manager.edit_rich(self.inline_message_id, html)
+
+    async def delete(self) -> bool:
+        entity = self._units.get(self.inline_message_id) if hasattr(self, "_units") else None
+        return True
+
+
 class InlineMessage:
     """Message sent via inline bot."""
 

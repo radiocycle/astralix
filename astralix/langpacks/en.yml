@@ -204,6 +204,9 @@ terminal:
   killed: "<tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> <b>Killed</b>"
   no_cmd: "<tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> <b>No command is running in that message</b>"
   running: "<tg-emoji emoji-id=5472111548572900003>⌨️</tg-emoji><b> System call</b> <code>{}</code>"
+  out_summary: "<b>Stdout</b>"
+  err_summary: "<b>Stderr</b>"
+
   finished: "\n<b>Exit code</b> <code>{}</code>"
   stdout: "\n<b>📼 Stdout:</b>\n<pre><code class=\"language-stdout\">"
   stderr: "</code></pre>\n\n<b><tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> Stderr:</b>\n<pre><code class=\"language-stderr\">"
@@ -573,6 +576,13 @@ help:
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>No exact match occured, so the closest result is shown instead</b>"
 
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>This is a core module. You can't unload it nor replace</b>"
+  cmd_summary: "<b>Commands</b>"
+  places_summary: "<b>Places</b>"
+  core_summary: "<b>Core</b>"
+  modules_summary: "<b>Modules</b>"
+  loaded_summary: "<b>Loaded</b>"
+  status_summary: "<b>Status</b>"
+
 
   _cls_doc: Shows help for modules and commands
   _cmd_doc_help: '[module] - Show help for modules and commands'

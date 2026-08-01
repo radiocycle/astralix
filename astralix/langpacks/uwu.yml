@@ -170,6 +170,9 @@ terminal:
   killed: "<tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> <b>Kiwwed x_x</b>"
   no_cmd: "<tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> <b>Nyo command is wunnying in dat message</b>"
   running: "<tg-emoji emoji-id=5472111548572900003>⌨️</tg-emoji><b> System caww</b> <code>{}</code>"
+  out_summary: "<b>Stdout</b>"
+  err_summary: "<b>Stderr</b>"
+
   finished: "\n<b>Exit code</b> <code>{}</code>"
   stdout: "\n<b>📼 Stdouwut:</b>\n<pre><code class=\"language-stdout\">"
   stderr: "</code></pre>\n\n<b><tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> Stdeww:</b>\n<pre><code class=\"language-stderr\">"
@@ -540,6 +543,13 @@ help:
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Nyo exact match occuwed, so da cwosest wesuwt is shown instead</b>"
 
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Dis is a cowe moduwe. You can't unwoad it nyow wepwace</b>"
+  cmd_summary: "<b>Commands</b>"
+  places_summary: "<b>Pwaces</b>"
+  core_summary: "<b>Cowe</b>"
+  modules_summary: "<b>Moduwes</b>"
+  loaded_summary: "<b>Woaded</b>"
+  status_summary: "<b>Status</b>"
+
   show_preview_in_help: "Show # meta bannyew in hewp pweview [moduwe] pwease~ :3 OwO"
 
   _cls_doc: Shows hewp fow moduwes and commands

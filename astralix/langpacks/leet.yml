@@ -170,6 +170,9 @@ terminal:
   killed: "<tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> <b>K1ll3d</b>"
   no_cmd: "<tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> <b>N0 cmd 15 runn1ng 1n 7h47 m5g</b>"
   running: "<tg-emoji emoji-id=5472111548572900003>⌨️</tg-emoji><b> Sy573m c4ll</b> <code>{}</code>"
+  out_summary: "<b>0u7pu7</b>"
+  err_summary: "<b>3rr0r</b>"
+
   finished: "\n<b>Ex17 c0d3</b> <code>{}</code>"
   stdout: "\n<b>📼 S7d0u7:</b>\n<pre><code class=\"language-stdout\">"
   stderr: "</code></pre>\n\n<b><tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> S7d3rr:</b>\n<pre><code class=\"language-stderr\">"
@@ -539,6 +542,13 @@ help:
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>N0 3x4c7 m47ch 0ccur3d, 50 7h3 cl05357 r35ul7 15 sh0wn 1n5734d</b>"
 
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>7h15 15 4 c0r3 m0dul3. U c4n'7 unl04d 17 n0r r3pl4c3</b>"
+  cmd_summary: "<b>C0mm4nd5</b>"
+  places_summary: "<b>Pl4c35</b>"
+  core_summary: "<b>C0r3</b>"
+  modules_summary: "<b>M0dul35</b>"
+  loaded_summary: "<b>L04d3d</b>"
+  status_summary: "<b>5t4tu5</b>"
+
   show_preview_in_help: "5h0w # m374 b4nn3r 1n h3lp pr3v13w [m0dul3]"
 
   _cls_doc: 5h0w5 h3lp f0r m0dul35 4nd c0mm4nd5

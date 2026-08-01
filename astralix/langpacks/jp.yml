@@ -170,6 +170,9 @@ terminal:
   killed: "<tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> <b>キルしました</b>"
   no_cmd: "<tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> <b>そのメッセージで実行されているコマンドはありません</b>"
   running: "<tg-emoji emoji-id=5472111548572900003>⌨️</tg-emoji><b> システムコール</b> <code>{}</code>"
+  out_summary: "<b>出力</b>"
+  err_summary: "<b>エラー</b>"
+
   finished: "\n<b>終了コード</b> <code>{}</code>"
   stdout: "\n<b>📼 標準出力:</b>\n<pre><code class=\"language-stdout\">"
   stderr: "</code></pre>\n\n<b><tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> 標準エラー:</b>\n<pre><code class=\"language-stderr\">"
@@ -539,6 +542,13 @@ help:
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>完全一致が発生しなかったため、最も近い結果が表示されています</b>"
 
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>これはコアモジュールです。アンロードや置換はできません</b>"
+  cmd_summary: "<b>コマンド</b>"
+  places_summary: "<b>場所</b>"
+  core_summary: "<b>コア</b>"
+  modules_summary: "<b>モジュール</b>"
+  loaded_summary: "<b>読み込み済み</b>"
+  status_summary: "<b>ステータス</b>"
+
 
   _cls_doc: モジュールとコマンドのヘルプを表示します
   _cmd_doc_help: '[module] - モジュールとコマンドのヘルプを表示'

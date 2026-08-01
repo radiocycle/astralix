@@ -16,6 +16,7 @@ import asyncio
 import contextlib
 import logging
 import os
+import random
 import time
 import typing
 
@@ -67,6 +68,7 @@ from .list import List
 from .query_gallery import QueryGallery
 from .tl import TelethonBot, web_document
 from .token_obtainment import TokenObtainment
+from .types import RichMessage
 from .utils import Utils
 
 logger = logging.getLogger(__name__)
@@ -508,3 +510,95 @@ class InlineManager(
                 message.reply_to_msg_id if isinstance(message, Message) else None
             ),
         )
+
+    async def send_rich(
+        self,
+        message: Message | int,
+        html: str,
+        *,
+        reply_to: int | None = None,
+    ) -> "RichMessage":
+        """
+        Send a rich message (``InputRichMessageHTML``) through the inline
+        bot (``@bot query`` + ``click``).
+
+        Unlike ``utils.answer_rich`` this path does not depend on the user
+        account's premium status — the message is sent via the inline bot, so
+        ``<details>`` / ``<pre><code>`` / tables etc. render natively even for
+        non-premium userbots.
+
+        Returns a :obj:`RichMessage` which carries the real :obj:`Message`
+        (proxy-compatible) plus ``inline_message_id`` for subsequent edits
+        via :meth:`edit_rich`.
+
+        :param message: Message to answer to (chat is resolved from it) or chat id
+        :param html: Rich HTML content to send
+        :param reply_to: Optional reply-to message id
+        :return: RichMessage wrapper
+        :raises RuntimeError: If the inline bot is not initialized
+        """
+        if not self._bot_client or not self.init_complete:
+            raise RuntimeError("Inline bot is not initialized")
+
+        unit_id = utils.rand(16)
+        future = asyncio.Event()
+        self._units[unit_id] = {
+            "type": "rich",
+            "html": html,
+            "caller": message,
+            "chat": None,
+            "message_id": None,
+            "top_msg_id": utils.get_topic(message) if isinstance(message, Message) else None,
+            "uid": unit_id,
+            "future": future,
+            "ttl": round(time.time()) + 10 * 60,
+        }
+
+        chat_id = utils.get_chat_id(message) if isinstance(message, Message) else message
+        try:
+            q = await self._client.inline_query(self.bot_username, unit_id)
+            if not q:
+                raise RuntimeError("No query results")
+            result = await q[0].click(
+                chat_id,
+                reply_to=reply_to,
+            )
+            with contextlib.suppress(asyncio.TimeoutError, KeyError):
+                await asyncio.wait_for(future.wait(), timeout=10)
+            inline_message_id = self._units.get(unit_id, {}).get(
+                "inline_message_id"
+            )
+            # Remove the invisible button we used to obtain inline_message_id
+            if inline_message_id:
+                with contextlib.suppress(Exception):
+                    await self.edit_rich(inline_message_id, html)
+            return RichMessage(self, result, inline_message_id)
+        finally:
+            self._units.pop(unit_id, None)
+
+    async def edit_rich(self, inline_message_id: str, html: str) -> bool:
+        """
+        Edit a rich inline message (sent via :meth:`send_rich`) with
+        ``EditInlineBotMessageRequest`` + ``InputRichMessageHTML``.
+
+        :param inline_message_id: Inline message id from RichMessage
+        :param html: New rich HTML content
+        :return: True on success
+        """
+        from telethon.tl.functions.messages import EditInlineBotMessageRequest
+        from telethon.tl.types import InputRichMessageHTML
+
+        if not self._bot_client:
+            return False
+
+        try:
+            await self._bot_client(
+                EditInlineBotMessageRequest(
+                    id=inline_message_id,
+                    rich_message=InputRichMessageHTML(html=html),
+                )
+            )
+            return True
+        except Exception as e:
+            logger.warning("edit_rich failed: %s: %s", type(e).__name__, e)
+            return False

@@ -170,6 +170,9 @@ terminal:
   killed: "<tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> <b>Process SIGKILL</b>"
   no_cmd: "<tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> <b>PID not found in stack</b>"
   running: "<tg-emoji emoji-id=5472111548572900003>⌨️</tg-emoji><b> $</b> <code>{}</code>"
+  out_summary: "<b>Stdout</b>"
+  err_summary: "<b>Stderr</b>"
+
   finished: "\n<b>Exit code</b> <code>{}</code>"
   stdout: "\n<b>📼 stdout:</b>\n<pre><code class=\"language-stdout\">"
   stderr: "</code></pre>\n\n<b><tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> stderr:</b>\n<pre><code class=\"language-stderr\">"
@@ -540,6 +543,13 @@ help:
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Fuzzy match result.</b>"
 
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Kernel module. Cannot unload/replace.</b>"
+  cmd_summary: "<b>Commands</b>"
+  places_summary: "<b>Places</b>"
+  core_summary: "<b>Core</b>"
+  modules_summary: "<b>Modules</b>"
+  loaded_summary: "<b>Loaded</b>"
+  status_summary: "<b>Status</b>"
+
 
   _cls_doc: Prints module and command manuals
   _cmd_doc_help: '[module] - Print help for modules and commands'

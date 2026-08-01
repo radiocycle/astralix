@@ -11,6 +11,7 @@
 # 🔑 https://www.gnu.org/licenses/agpl-3.0.html
 
 import asyncio
+import contextlib
 import difflib
 import inspect
 import logging
@@ -29,7 +30,15 @@ logger = logging.getLogger(__name__)
 class Help(loader.Module):
     """Shows help for modules and commands"""
 
-    strings = {"name": "Help"}
+    strings = {
+        "name": "Help",
+        "cmd_summary": "<b>Commands</b>",
+        "places_summary": "<b>Places</b>",
+        "core_summary": "<b>Core</b>",
+        "modules_summary": "<b>Modules</b>",
+        "loaded_summary": "<b>Loaded</b>",
+        "status_summary": "<b>Status</b>",
+    }
 
     def __init__(self):
         self.config = loader.ModuleConfig(
@@ -82,11 +91,28 @@ class Help(loader.Module):
                 lambda: self.strings["show_preview_in_help"],
                 validator=loader.validators.Boolean(),
             ),
+            loader.ConfigValue(
+                "send_via_inline",
+                False,
+                lambda: "Send rich messages via inline bot",
+                validator=loader.validators.Boolean(),
+            ),
         )
 
     def _get_banner_url(self, doc: str):
         match = re.search(r"# ?meta banner: ?(.+)", doc)
         return match.group(1).strip() if match else None
+
+    async def _answer_rich(self, message, text, **kwargs):
+        """Send via inline bot if send_via_inline, else via utils.answer_rich."""
+        if self.config["send_via_inline"]:
+            result = await self.inline.send_rich(message, text)
+            # Delete the command message (e.g. "1help") after sending via inline
+            with contextlib.suppress(Exception):
+                if isinstance(message, Message) and message.out:
+                    await message.delete()
+            return result
+        return await utils.answer_rich(message, text, **kwargs)
 
     @loader.command(
         ru_doc="[args] | Спрячет ваши модули",
@@ -186,9 +212,9 @@ class Help(loader.Module):
         cmds = ""
         if module.__doc__:
             reply += (
-                "\n<i><tg-emoji emoji-id=5879813604068298387>ℹ️</tg-emoji> "
+                "<br><i><tg-emoji emoji-id=5879813604068298387>ℹ️</tg-emoji> "
                 + utils.escape_html(inspect.getdoc(module))
-                + "\n</i>"
+                + "<br></i>"
             )
 
         if isinstance(self.lookup(args), loader.Library):
@@ -203,8 +229,8 @@ class Help(loader.Module):
         if hasattr(module, "inline_handlers"):
             for name, fun in module.inline_handlers.items():
                 inline_cmd += (
-                    "\n<tg-emoji emoji-id=5372981976804366741>🤖</tg-emoji>"
-                    " <code>{}</code> {}".format(
+                    "<p><tg-emoji emoji-id=5372981976804366741>🤖</tg-emoji>"
+                    " <code>{}</code> {}</p>".format(
                         f"@{self.inline.bot_username} {name}",
                         (
                             utils.escape_html(inspect.getdoc(fun))
@@ -241,13 +267,14 @@ class Help(loader.Module):
                     ),
                 )
             )
-        cmds = "\n".join(lines)
+        cmds = "".join(f"<p>{line}</p>" for line in lines)
         developer = re.search(
             r"# ?meta developer: ?(.+)", getattr(module, "__source__", None)
         )
         dev_text = developer.group(1) if developer else None
-        placeholders = "\n".join(
-            utils.help_placeholders(module.__class__.__name__, self)
+        placeholders = "".join(
+            f"<p>{p}</p>"
+            for p in utils.help_placeholders(module.__class__.__name__, self)
         )
 
         banner_kwargs = {}
@@ -264,18 +291,18 @@ class Help(loader.Module):
             except Exception:
                 pass
 
-        await utils.answer(
+        await self._answer_rich(
             message,
-            f"{reply}<blockquote expandable>{cmds}{inline_cmd}</blockquote>"
+            f"{reply}<details><summary>{self.strings['cmd_summary']}</summary>{cmds}{inline_cmd}</details>"
             + (
-                f"<blockquote expandable>\n{placeholders}</blockquote>"
+                f"<details><summary>{self.strings['places_summary']}</summary>{placeholders}</details>"
                 if placeholders
                 else ""
             )
-            + (f"\n\n{self.strings['developer']}".format(dev_text) if dev_text else "")
-            + (f"\n\n{self.strings['not_exact']}" if not exact else "")
+            + (f"<p>{self.strings['developer']}</p>".format(dev_text) if dev_text else "")
+            + (f"<p>{self.strings['not_exact']}</p>" if not exact else "")
             + (
-                f"\n{self.strings['core_notice']}"
+                f"<p>{self.strings['core_notice']}</p>"
                 if module.__origin__.startswith("<core")
                 else ""
             ),
@@ -295,11 +322,6 @@ class Help(loader.Module):
         banner = str(self.config["banner_url"])
 
         if self.config["banner_url"] and self.config["media_quote"] is True:
-            banner = InputMediaWebPage(str(self.config["banner_url"]))
-
-        if (
-            self.config["banner_url"] and self.client.astralix_me.premium is False
-        ):  # bcs non-premium users can add in caption only 1024 symbols
             banner = InputMediaWebPage(str(self.config["banner_url"]))
 
         if not self.config["banner_url"]:
@@ -369,13 +391,13 @@ class Help(loader.Module):
                 and not placeholders
             ):
                 no_commands_ += [
-                    "\n{} <code>{}</code>".format(self.config["empty_emoji"], name)
+                    "<p>{} <code>{}</code></p>".format(self.config["empty_emoji"], name)
                 ]
                 continue
 
             core = mod.__origin__.startswith("<core")
 
-            tmp += "\n{} <code>{}</code>".format(
+            tmp += "<p>{} <code>{}</code>".format(
                 self.config["core_emoji"] if core else self.config["plain_emoji"], name
             )
             first = True
@@ -433,7 +455,7 @@ class Help(loader.Module):
                     tmp += f" | {{{placeholder}}}"
 
             if commands or icommands or placeholders:
-                tmp += " )"
+                tmp += " )</p>"
                 if core:
                     core_ += [tmp]
                 else:
@@ -441,7 +463,7 @@ class Help(loader.Module):
             elif not shown_warn and (mod.commands or mod.inline_handlers):
                 reply = (
                     "<i>You have permissions to execute only these"
-                    f" commands</i>\n{reply}"
+                    f" commands</i><br>{reply}"
                 )
                 shown_warn = True
 
@@ -451,56 +473,71 @@ class Help(loader.Module):
 
         match True:
             case _ if only_core:
-                await utils.answer(
+                status = (
+                    ""
+                    if self.lookup("LoaderMod").fully_loaded
+                    else f"<p>{self.strings['partial_load']}</p>"
+                )
+                await self._answer_rich(
                     message,
                     (
                         self.config["desc_icon"]
-                        + " {}\n <blockquote expandable>{}</blockquote><blockquote expandable>{}</blockquote>"
-                    ).format(
-                        reply,
-                        "".join(core_),
-                        (
-                            ""
-                            if self.lookup("LoaderMod").fully_loaded
-                            else f"\n\n{self.strings['partial_load']}"
-                        ),
+                        + " {}".format(reply)
+                        + (
+                            f"<details><summary>{self.strings['core_summary']}</summary>{''.join(core_)}</details>"
+                            if core_
+                            else ""
+                        )
+                        + (f"<details><summary>{self.strings['status_summary']}</summary>{status}</details>" if status else "")
                     ),
                     file=banner,
                     invert_media=self.config["invert_media"],
                 )
             case _ if only_loaded:
-                await utils.answer(
+                status = (
+                    ""
+                    if self.lookup("LoaderMod").fully_loaded
+                    else f"<p>{self.strings['partial_load']}</p>"
+                )
+                await self._answer_rich(
                     message,
                     (
                         self.config["desc_icon"]
-                        + " {}\n <blockquote expandable>{}</blockquote><blockquote expandable>{}</blockquote>"
-                    ).format(
-                        reply,
-                        "".join(plain_ + (no_commands_ if force else [])),
-                        (
-                            ""
-                            if self.lookup("LoaderMod").fully_loaded
-                            else f"\n\n{self.strings['partial_load']}"
-                        ),
+                        + " {}".format(reply)
+                        + (
+                            f"<details><summary>{self.strings['loaded_summary']}</summary>"
+                            f"{''.join(plain_ + (no_commands_ if force else []))}</details>"
+                            if plain_ or no_commands_
+                            else ""
+                        )
+                        + (f"<details><summary>{self.strings['status_summary']}</summary>{status}</details>" if status else "")
                     ),
                     file=banner,
                     invert_media=self.config["invert_media"],
                 )
             case _:
-                await utils.answer(
+                status = (
+                    ""
+                    if self.lookup("LoaderMod").fully_loaded
+                    else f"<p>{self.strings['partial_load']}</p>"
+                )
+                await self._answer_rich(
                     message,
                     (
                         self.config["desc_icon"]
-                        + " {}\n <blockquote expandable>{}</blockquote><blockquote expandable>{}</blockquote><blockquote expandable>{}</blockquote>"
-                    ).format(
-                        reply,
-                        "".join(core_),
-                        "".join(plain_ + (no_commands_ if force else [])),
-                        (
-                            ""
-                            if self.lookup("LoaderMod").fully_loaded
-                            else f"\n\n{self.strings['partial_load']}"
-                        ),
+                        + " {}".format(reply)
+                        + (
+                            f"<details><summary>{self.strings['core_summary']}</summary>{''.join(core_)}</details>"
+                            if core_
+                            else ""
+                        )
+                        + (
+                            f"<details><summary>{self.strings['modules_summary']}</summary>"
+                            f"{''.join(plain_ + (no_commands_ if force else []))}</details>"
+                            if plain_ or no_commands_
+                            else ""
+                        )
+                        + (f"<details><summary>{self.strings['status_summary']}</summary>{status}</details>" if status else "")
                     ),
                     file=banner,
                     invert_media=self.config["invert_media"],

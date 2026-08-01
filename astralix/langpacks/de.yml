@@ -162,6 +162,9 @@ terminal:
   killed: "<b>Beendet</b>"
   no_cmd: "<tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> <b>Kein Befehl wird in dieser Nachricht ausgeführt</b>"
   running: "<tg-emoji emoji-id=5472111548572900003>⌨️</tg-emoji><b> Systembefehl</b> <code>{}</code>"
+  out_summary: "<b>Ausgabe</b>"
+  err_summary: "<b>Fehler</b>"
+
   finished: "\n<b>Beendigungscode</b> <code>{}</code>"
   stdout: "\n<b>📼 Stdout:</b>\n<pre><code class=\"language-stdout\">"
   stderr: "</code></pre>\n\n<b><tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> Stderr:</b>\n<pre><code class=\"language-stderr\">"
@@ -525,6 +528,13 @@ help:
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Es wurde keine exakte Übereinstimmung gefunden, daher wurde die passendste Auswahl getroffen</b>"
 
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Dies ist ein eingebautes Modul. Du kannst es nicht entladen oder ersetzen</b>"
+  cmd_summary: "<b>Befehle</b>"
+  places_summary: "<b>Orte</b>"
+  core_summary: "<b>Kern</b>"
+  modules_summary: "<b>Module</b>"
+  loaded_summary: "<b>Geladen</b>"
+  status_summary: "<b>Status</b>"
+
   _cmd_doc_help: "[Modul] [-f] - Zeigt Hilfe an"
   _cmd_doc_helphide: "<Modul oder Module> - Versteckt das Modul(-e) aus der Hilfe\n*Trenne die Module mit Leerzeichen"
 

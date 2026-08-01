@@ -92,16 +92,26 @@ class MessageEditor:
         await self.redraw()
 
     async def redraw(self):
-        text = self.strings["running"].format(utils.escape_html(self.command))  # fmt: skip
+        text = self.strings["running"].format(utils.escape_html(self.command))
 
         if self.rc is not None:
-            text += self.strings["finished"].format(utils.escape_html(str(self.rc)))
+            text += (
+                f"<p>{self.strings['finished'].format(utils.escape_html(str(self.rc)))}</p>"
+            )
 
-        text += self.strings["stdout"]
-        text += utils.escape_html(self.stdout[max(len(self.stdout) - 2048, 0) :])
+        stdout = utils.escape_html(self.stdout[max(len(self.stdout) - 2048, 0) :])
         stderr = utils.escape_html(self.stderr[max(len(self.stderr) - 1024, 0) :])
-        text += (self.strings["stderr"] + stderr) if stderr else ""
-        text += self.strings["end"]
+
+        if stdout or stderr:
+            text += (
+                f"<details><summary>{self.strings['out_summary']}</summary>"
+                "<pre><code>" + stdout + "</code></pre></details>"
+            )
+            if stderr:
+                text += (
+                    f"<details><summary>{self.strings['err_summary']}</summary>"
+                    "<pre><code>" + stderr + "</code></pre></details>"
+                )
 
         if self.rc is not None:
             exec_time = time.time() - self.start_time
@@ -109,7 +119,21 @@ class MessageEditor:
 
         with contextlib.suppress(telethon.errors.rpcerrorlist.MessageNotModifiedError):
             try:
-                self.message = await utils.answer(self.message, text)
+                if self.config.get("send_via_inline"):
+                    if not getattr(self, "_rich_msg", None):
+                        original = self.message
+                        self._rich_msg = await self.message.client.loader.inline.send_rich(
+                            self.message, text
+                        )
+                        self.message = self._rich_msg
+                        # Delete the command message (e.g. "1terminal ...")
+                        with contextlib.suppress(Exception):
+                            if getattr(original, "out", False):
+                                await original.delete()
+                    else:
+                        await self._rich_msg.edit(text)
+                else:
+                    self.message = await utils.answer_rich(self.message, text)
             except telethon.errors.rpcerrorlist.MessageTooLongError as e:
                 logger.error(e)
                 logger.error(text)
@@ -264,23 +288,23 @@ class RawMessageEditor(SudoMessageEditor):
 
         match self.rc:
             case None:
-                text = (
-                    "<code>"
-                    + utils.escape_html(self.stdout[max(len(self.stdout) - 4095, 0) :])
-                    + "</code>"
+                output = utils.escape_html(
+                    self.stdout[max(len(self.stdout) - 4095, 0) :]
                 )
             case 0:
-                text = (
-                    "<code>"
-                    + utils.escape_html(self.stdout[max(len(self.stdout) - 4090, 0) :])
-                    + "</code>"
+                output = utils.escape_html(
+                    self.stdout[max(len(self.stdout) - 4090, 0) :]
                 )
             case _:
-                text = (
-                    "<code>"
-                    + utils.escape_html(self.stderr[max(len(self.stderr) - 4095, 0) :])
-                    + "</code>"
+                output = utils.escape_html(
+                    self.stderr[max(len(self.stderr) - 4095, 0) :]
                 )
+
+        text = self.strings["running"].format(utils.escape_html(self.command))
+        text += (
+            f"<details><summary>{self.strings['out_summary']}</summary>"
+            "<pre><code>" + output + "</code></pre></details>"
+        )
 
         if self.rc is not None and self.show_done:
             text += "\n" + self.strings["done"]
@@ -293,7 +317,21 @@ class RawMessageEditor(SudoMessageEditor):
             ValueError,
         ):
             try:
-                await utils.answer(self.message, text)
+                if self.config.get("send_via_inline"):
+                    if not getattr(self, "_rich_msg", None):
+                        original = self.message
+                        self._rich_msg = await self.message.client.loader.inline.send_rich(
+                            self.message, text
+                        )
+                        self.message = self._rich_msg
+                        # Delete the command message (e.g. "1terminal ...")
+                        with contextlib.suppress(Exception):
+                            if getattr(original, "out", False):
+                                await original.delete()
+                    else:
+                        await self._rich_msg.edit(text)
+                else:
+                    self.message = await utils.answer_rich(self.message, text)
             except telethon.errors.rpcerrorlist.MessageTooLongError as e:
                 logger.error(e)
                 logger.error(text)
@@ -334,16 +372,32 @@ class InlineMessageEditor:
         await self.redraw()
 
     async def redraw(self):
-        text = self.strings["running"].format(utils.escape_html(self.command))
+        cmd_block = (
+            "<details><summary>⌨️ <b>Команда</b></summary>"
+            "<code>"
+            + utils.escape_html(self.command)
+            + "</code></details>"
+        )
+        text = cmd_block
 
         if self.rc is not None:
             text += self.strings["finished"].format(utils.escape_html(str(self.rc)))
 
-        text += self.strings["stdout"]
-        text += utils.escape_html(self.stdout[max(len(self.stdout) - 2048, 0) :])
+        stdout = utils.escape_html(self.stdout[max(len(self.stdout) - 2048, 0) :])
         stderr = utils.escape_html(self.stderr[max(len(self.stderr) - 1024, 0) :])
-        text += (self.strings["stderr"] + stderr) if stderr else ""
-        text += self.strings["end"]
+
+        if stdout or stderr:
+            text += "<details><summary>📼 <b>Вывод</b></summary><pre><code>"
+            text += stdout
+            if stderr:
+                text += "</code></pre></details>"
+                text += (
+                    "<details><summary>🚫 <b>Stderr</b></summary><pre><code>"
+                    + stderr
+                    + "</code></pre></details>"
+                )
+            else:
+                text += "</code></pre></details>"
 
         if self.rc is not None:
             exec_time = time.time() - self.start_time
@@ -507,6 +561,12 @@ class TerminalMod(loader.Module):
                 lambda: self.strings["command_protect"],
                 validator=loader.validators.Boolean(),
             ),
+            loader.ConfigValue(
+                "send_via_inline",
+                False,
+                lambda: "Send rich messages via inline bot",
+                validator=loader.validators.Boolean(),
+            ),
         )
         self.activecmds = {}
         self._inline_pending: dict[str, str] = {}
@@ -567,6 +627,13 @@ class TerminalMod(loader.Module):
 
         if not user_command and reply and reply.message:
             user_command = reply.message
+
+        if not user_command:
+            await utils.answer(
+                message,
+                f"<code>terminal</code> — {self.strings['inline_hint_desc']}",
+            )
+            return
 
         if self._is_dangerous(user_command):
             await utils.answer(
@@ -803,6 +870,9 @@ class TerminalMod(loader.Module):
 
         await editor.redraw()
 
+        if getattr(editor, "_rich_msg", None):
+            self.activecmds[hash_msg(editor.message)] = sproc
+
         await asyncio.gather(
             read_stream(
                 editor.update_stdout,
@@ -818,6 +888,8 @@ class TerminalMod(loader.Module):
 
         await editor.cmd_ended(await sproc.wait())
         del self.activecmds[hash_msg(message)]
+        if getattr(editor, "_rich_msg", None):
+            self.activecmds.pop(hash_msg(editor.message), None)
 
     def _find_inline_editor_by_message(
         self,

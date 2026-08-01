@@ -8,6 +8,7 @@ import contextlib
 import io
 import json
 import logging
+import random
 import re
 import typing
 
@@ -468,6 +469,85 @@ async def answer(
                 await message.delete()
 
     return result
+
+
+async def answer_rich(
+    message: Message | InlineCall | InlineMessage,
+    response: str,
+    *,
+    reply_markup: astralixReplyMarkup | None = None,
+    **kwargs,
+) -> InlineCall | InlineMessage | Message:
+    """
+    Answer a message with a rich message (layer 228+).
+
+    Sends via ``SendMessageRequest`` / ``EditMessageRequest`` with
+    ``rich_message=InputRichMessageHTML`` so that rich HTML blocks
+    (``<details>``, ``<pre><code>``, tables, headings, ``<tg-spoiler>``,
+    ``<tg-slideshow>``, math, references) render natively instead of being
+    stripped by the legacy HTML parser.
+
+    Falls back to the legacy :func:`answer` when the rich path fails
+    (e.g. old server / unsupported account), so rich-capable output
+    degrades gracefully.
+
+    :param message: Message to answer to. Can be a tl message or astralix inline object
+    :param response: Rich HTML response to send
+    :param reply_markup: Reply markup to send. If specified, inline form will be used
+    :return: Message or inline object
+    """
+    try:
+        from telethon.tl.functions.messages import (
+            EditMessageRequest,
+            SendMessageRequest,
+        )
+        from telethon.tl.types import InputRichMessageHTML
+    except ImportError:
+        return await answer(message, response, reply_markup=reply_markup, **kwargs)
+
+    if isinstance(message, (InlineMessage, InlineCall, BotInlineCall)):
+        # Inline forms are edited through the bot client, which does not
+        # expose rich_message — fall back to the legacy path.
+        return await answer(message, response, reply_markup=reply_markup, **kwargs)
+
+    if reply_markup is not None:
+        return await answer(message, response, reply_markup=reply_markup, **kwargs)
+
+    client = message.client
+    rich = InputRichMessageHTML(html=response)
+
+    edit = message.out and not message.via_bot_id and not message.fwd_from
+    try:
+        peer = await message.get_input_chat()
+        if edit:
+            await client(
+                EditMessageRequest(
+                    peer=peer,
+                    id=message.id,
+                    message="",
+                    rich_message=rich,
+                )
+            )
+            return message
+
+        updates = await client(
+            SendMessageRequest(
+                peer=peer,
+                message="",
+                rich_message=rich,
+                random_id=random.randint(1, 2**63 - 1),
+            )
+        )
+        # Extract the sent Message from the Updates to keep the caller's
+        # contract (utils.answer returns the resulting Message).
+        for update in getattr(updates, "updates", []):
+            msg = getattr(update, "message", None)
+            if msg is not None:
+                return msg
+        return message
+    except Exception:
+        # Legacy fallback: rich path rejected (old server, flood, etc.)
+        return await answer(message, response, reply_markup=reply_markup, **kwargs)
 
 
 async def answer_file(

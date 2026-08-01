@@ -162,6 +162,9 @@ terminal:
   killed: "<b>Убит</b>"
   no_cmd: "<tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> <b>В цьому повідомленні не виконується команда</b>"
   running: "<tg-emoji emoji-id=5472111548572900003>⌨️</tg-emoji><b> Системна команда</b> <code>{}</code>"
+  out_summary: "<b>Вивід</b>"
+  err_summary: "<b>Помилки</b>"
+
   finished: "\n<b>Вихідний код </b> <code>{}</code>"
   stdout: "\n<b>📼 Stdout:</b>\n<pre><code class=\"language-stdout\">"
   stderr: "</code></pre>\n\n<b><tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> Stderr:</b>\n<pre><code class=\"language-stderr\">"
@@ -525,6 +528,13 @@ help:
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Точного збігу не знайшлося, тому було обрано найбільш підходяще</b>"
 
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Це вбудований модуль. Ви не можете його вивантажити або замінити</b>"
+  cmd_summary: "<b>Команди</b>"
+  places_summary: "<b>Місця</b>"
+  core_summary: "<b>Ядро</b>"
+  modules_summary: "<b>Модулі</b>"
+  loaded_summary: "<b>Завантажені</b>"
+  status_summary: "<b>Статус</b>"
+
   _cmd_doc_help: "[модуль] [-f] - Показати команди"
   _cmd_doc_helphide: "<модуль або модулі> - Сховати модуль(-і) з help\n*Розділяй модулі пробілами"
 

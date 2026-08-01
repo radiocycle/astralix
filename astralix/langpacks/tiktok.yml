@@ -162,6 +162,9 @@ terminal:
   killed: "<b>Потрачено (убит)</b>"
   no_cmd: "<tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> <b>Тут ничего не запущено, алло</b>"
   running: "<tg-emoji emoji-id=5472111548572900003>⌨️</tg-emoji><b> Хацкерская команда</b> <code>{}</code>"
+  out_summary: "<b>Вывод</b>"
+  err_summary: "<b>Ошибки</b>"
+
   finished: "\n<b>Код выхода </b> <code>{}</code>"
   stdout: "\n<b>📼 Выхлоп:</b>\n<pre><code class=\"language-stdout\">"
   stderr: "</code></pre>\n\n<b><tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> Ошибки (кринж):</b>\n<pre><code class=\"language-stderr\">"
@@ -524,6 +527,13 @@ help:
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Точно не нашел, вот похожее</b>"
 
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Это встроенный (core) модуль. Не трогай его</b>"
+  cmd_summary: "<b>Команды</b>"
+  places_summary: "<b>Места</b>"
+  core_summary: "<b>Ядро</b>"
+  modules_summary: "<b>Моды</b>"
+  loaded_summary: "<b>Загружено</b>"
+  status_summary: "<b>Статус</b>"
+
   _cmd_doc_help: "[модуль] [-f] - Показать хелп"
   _cmd_doc_helphide: "<модули> - Спрятать модули из хелпа (через пробел)"
 

@@ -162,6 +162,9 @@ terminal:
   killed: "<b>Убит</b>"
   no_cmd: "<tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> <b>В этом сообщении не выполняется команда</b>"
   running: "<tg-emoji emoji-id=5472111548572900003>⌨️</tg-emoji><b> Системная команда</b> <code>{}</code>"
+  out_summary: "<b>Вывод</b>"
+  err_summary: "<b>Ошибки</b>"
+
   finished: "\n<b>Код выхода </b> <code>{}</code>"
   stdout: "\n<b>📼 Stdout:</b>\n<pre><code class=\"language-stdout\">"
   stderr: "</code></pre>\n\n<b><tg-emoji emoji-id=5210952531676504517>🚫</tg-emoji> Stderr:</b>\n<pre><code class=\"language-stderr\">"
@@ -543,6 +546,13 @@ help:
   not_exact: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Точного совпадения не нашлось, поэтому было выбрано наиболее подходящее</b>"
 
   core_notice: "<tg-emoji emoji-id=5355133243773435190>☝️</tg-emoji> <b>Это встроенный модуль. Вы не можете его выгрузить или заменить</b>"
+  cmd_summary: "<b>Команды</b>"
+  places_summary: "<b>Места</b>"
+  core_summary: "<b>Ядро</b>"
+  modules_summary: "<b>Модули</b>"
+  loaded_summary: "<b>Загруженные</b>"
+  status_summary: "<b>Статус</b>"
+
   _cmd_doc_help: "[модуль] [-f] - Показать помощь"
   _cmd_doc_helphide: "<модуль или модули> - Спрятать модуль(-и) из помощи\n*Разделяй модули пробелами"
   show_preview_in_help: "Показать # meta banner в превью help [module] ?"
